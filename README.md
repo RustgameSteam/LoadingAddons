@@ -16,6 +16,9 @@
 	**LA_ErrorLog(false, bool Success, string AddonName)** - В случае успешного запуска аддона
 	* Success равен false:
 	**LA_ErrorLog(false, bool Success, string AddonName, string Text)** - Причину ошибки можете указать сами
+3. **function LA_LoadingAddons_From(string URL, string Text)** - Где Text: Обозначение/Наименование чтобы вы знали, что вызвало ошибку.
+* Пример использование: Получим данные этого же аддона:
+* LA_LoadingAddons_From("https://raw.githubusercontent.com/RustgameSteam/LoadingAddons/master/server/addons/loadingaddons/lua/autorun/server/sv_loadingaddons.lua", "LoadingAddons")
 ## Настройка Web:
 * **Все подробности указаны в самом index.php**
 * **Файл error.lua, вызывается при ошибках на стороне Web, если указан пустой [an] или такого файла нет на сайте.** - Можете изменить его под себя, язык: Lua
