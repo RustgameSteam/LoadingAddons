@@ -29,7 +29,6 @@ end
 function LA_LoadingAddons(URL, AddonName)
 	local CodeLog = "[ "..math.random(1000,9999).."-"..math.random(1000,9999).." ]"
 	local URL = URL.."/index.php?an="..AddonName
-	print(URL)
 	http.Fetch(URL, 
 	function(C)
 		print(C)
@@ -50,6 +49,32 @@ function LA_LoadingAddons(URL, AddonName)
 | > Аддон: "..AddonName.."\
 | > Error: "..Error.."\
 _________________________[ Завершение логов ошибок сайта ]__________________________\n"
+		file.Append("la_logs/site_errors.dat", String)
+	end)
+end
+
+function LA_LoadingAddons_From(URL, Text)
+	local CodeLog = "[ "..math.random(1000,9999).."-"..math.random(1000,9999).." ]"
+	http.Fetch(URL, 
+	function(C)
+		print(C)
+		LA_ErrorLog(false, true, Text)
+		local succ, err = pcall(function()
+			CompileString(C, Text)()
+		end)
+		if (succ) then 
+			LA_ErrorLog(false, false, Text, "Запуск прошел успешно!") 
+		else 
+			print("[ LoadingAddons: From ]: "..Text.." Вызвал ошибку: "..CodeLog)
+			LA_ErrorLog(true, CodeLog, Text, tostring(err).."\n")
+			LA_ErrorLog(false, false, Text, "Запуск не завершен, есть ошибка! Код Лог: "..CodeLog)
+		end
+	end,
+	function(Error)
+		local String = "________________[ "..os.date("[ %d.%m.%y ][ %X ]", os.time()).." | Код лог: "..CodeLog.." ]________________\
+| > Наименование: "..Text.."\
+| > Error: "..Error.."\
+_________________________[ Завершение логов ошибок: [ "..Text.." ] ]__________________________\n"
 		file.Append("la_logs/site_errors.dat", String)
 	end)
 end
